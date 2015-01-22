@@ -1,0 +1,1 @@
+g++ -O6 -o ./game1 ./game1.cpp `sdl-config --cflags --libs` -lSDL_image -lGLU -lGL && ./game1
