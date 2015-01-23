@@ -1,96 +1,99 @@
 #include "tga.h"
+// All russian comments are in KOI8-U encoding
+// i will certainly convert them later
 
-// Загружает несжатый файл
+
+// ц╨ц│ц┤ц▓ц∙ц√ц│ц┘ц■ ц▌ц┘ц⌠ц√ц│ц■ц≥ц┼ ц├ц│ц┼ц▄
 bool LoadTGA(Texture * texture, char * filename)
 //bool LoadUncompressedTGA(Texture *, char *, FILE *);
 {
-	FILE * fTGA; // Объявляем указатель на файл
-	fTGA = fopen(filename, "rb"); // Открываем файл на чтение
-	if(fTGA == NULL)        // Если была ошибка
+	FILE * fTGA; // ц╞ц┌ц÷ц▒ц≈ц▄ц▒ц┘ц█ ц∙ц▀ц│ц ц│ц■ц┘ц▄ц≤ ц▌ц│ ц├ц│ц┼ц▄
+	fTGA = fopen(filename, "rb"); // ц╞ц■ц▀ц▓ц≥ц≈ц│ц┘ц█ ц├ц│ц┼ц▄ ц▌ц│ ц·ц■ц┘ц▌ц┴ц┘
+	if(fTGA == NULL)        // ц╔ц⌠ц▄ц┴ ц┌ц≥ц▄ц│ ц▐ц⌡ц┴ц┌ц▀ц│
 	{
 		printf("Can't open file!\n");//...Error code...
-		return false;         // Возвращаем False
+		return false;         // ц╥ц▐ц ц≈ц▓ц│ц²ц│ц┘ц█ False
 	}
 
-	// Попытка прочитать заголовок файла
+	// ц╟ц▐ц░ц≥ц■ц▀ц│ ц░ц▓ц▐ц·ц┴ц■ц│ц■ц≤ ц ц│ц┤ц▐ц▄ц▐ц≈ц▐ц▀ ц├ц│ц┼ц▄ц│
 	if(fread(&tgaheader, sizeof(TGAHeader), 1, fTGA) == 0)
 	{
-		printf("Can't read file header!\n");//...Здесь код ошибки...
-		return false;        // При ошибки возвращаем false
+		printf("Can't read file header!\n");//...ц╨ц└ц┘ц⌠ц≤ ц▀ц▐ц└ ц▐ц⌡ц┴ц┌ц▀ц┴...
+		return false;        // ц╟ц▓ц┴ ц▐ц⌡ц┴ц┌ц▀ц┴ ц≈ц▐ц ц≈ц▓ц│ц²ц│ц┘ц█ false
 	}  
 
-	// Если заголовок файла соответствует заголовку несжатого файла
+	// ц╔ц⌠ц▄ц┴ ц ц│ц┤ц▐ц▄ц▐ц≈ц▐ц▀ ц├ц│ц┼ц▄ц│ ц⌠ц▐ц▐ц■ц≈ц┘ц■ц⌠ц■ц≈ц∙ц┘ц■ ц ц│ц┤ц▐ц▄ц▐ц≈ц▀ц∙ ц▌ц┘ц⌠ц√ц│ц■ц▐ц┤ц▐ ц├ц│ц┼ц▄ц│
 	if(memcmp(uTGAcompare, &tgaheader, sizeof(tgaheader)) == 0)
 	{
-		// Загружаем несжатый TGA
+		// ц╨ц│ц┤ц▓ц∙ц√ц│ц┘ц█ ц▌ц┘ц⌠ц√ц│ц■ц≥ц┼ TGA
 		LoadUncompressedTGA(texture, filename, fTGA);
 	}
-	// Если заголовок файла соответствует заголовок сжатого файла
+	// ц╔ц⌠ц▄ц┴ ц ц│ц┤ц▐ц▄ц▐ц≈ц▐ц▀ ц├ц│ц┼ц▄ц│ ц⌠ц▐ц▐ц■ц≈ц┘ц■ц⌠ц■ц≈ц∙ц┘ц■ ц ц│ц┤ц▐ц▄ц▐ц≈ц▐ц▀ ц⌠ц√ц│ц■ц▐ц┤ц▐ ц├ц│ц┼ц▄ц│
 	else if(memcmp(cTGAcompare, &tgaheader, sizeof(tgaheader)) == 0)
 	{                      
-		// Загружаем сжатый TGA
+		// ц╨ц│ц┤ц▓ц∙ц√ц│ц┘ц█ ц⌠ц√ц│ц■ц≥ц┼ TGA
 		printf("Image is compressed TGA, is is not suported!\n");//LoadCompressedTGA(texture, filename, fTGA);
 		return false;
 	}
-	else            // Если не соответствует никакому
+	else            // ц╔ц⌠ц▄ц┴ ц▌ц┘ ц⌠ц▐ц▐ц■ц≈ц┘ц■ц⌠ц■ц≈ц∙ц┘ц■ ц▌ц┴ц▀ц│ц▀ц▐ц█ц∙
 	{
-		printf("Unkown header format!\n");//... Здесь код ошибки...            
-		return false;        // Возвращаем false False
+		printf("Unkown header format!\n");//... ц╨ц└ц┘ц⌠ц≤ ц▀ц▐ц└ ц▐ц⌡ц┴ц┌ц▀ц┴...            
+		return false;        // ц╥ц▐ц ц≈ц▓ц│ц²ц│ц┘ц█ false False
 	}  
 }
 
-// Загружаем несжатый TGA!
+// ц╨ц│ц┤ц▓ц∙ц√ц│ц┘ц█ ц▌ц┘ц⌠ц√ц│ц■ц≥ц┼ TGA!
 bool LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 {
-	// Пытаемся прочитать следующие 6 байт
+	// ц╟ц≥ц■ц│ц┘ц█ц⌠ц▒ ц░ц▓ц▐ц·ц┴ц■ц│ц■ц≤ ц⌠ц▄ц┘ц└ц∙ц─ц²ц┴ц┘ 6 ц┌ц│ц┼ц■
 	if(fread(tga.header, sizeof(tga.header), 1, fTGA) == 0)
 	{                    
-		printf("Can't read file header!\n");//...Здесь код ошибки...
-		return false;        // Возвращаем False
+		printf("Can't read file header!\n");//...ц╨ц└ц┘ц⌠ц≤ ц▀ц▐ц└ ц▐ц⌡ц┴ц┌ц▀ц┴...
+		return false;        // ц╥ц▐ц ц≈ц▓ц│ц²ц│ц┘ц█ False
 	}
-	texture->width  = tga.header[1] * 256 + tga.header[0];  // Вычисляем высоту
-	texture->height = tga.header[3] * 256 + tga.header[2];  // Вычисляем ширину
-	texture->bpp = tga.header[4]; // Вычисляем количество бит на пиксель
-	tga.Width = texture->width;   // Вычисляем высоту в локальной структуре
-	tga.Height = texture->height; // Вычисляем ширину в локальной структуре
-	tga.Bpp = texture->bpp;       // Вычисляем количество бит на пиксель в локальной структуре
+	texture->width  = tga.header[1] * 256 + tga.header[0];  // ц╥ц≥ц·ц┴ц⌠ц▄ц▒ц┘ц█ ц≈ц≥ц⌠ц▐ц■ц∙
+	texture->height = tga.header[3] * 256 + tga.header[2];  // ц╥ц≥ц·ц┴ц⌠ц▄ц▒ц┘ц█ ц⌡ц┴ц▓ц┴ц▌ц∙
+	texture->bpp = tga.header[4]; // ц╥ц≥ц·ц┴ц⌠ц▄ц▒ц┘ц█ ц▀ц▐ц▄ц┴ц·ц┘ц⌠ц■ц≈ц▐ ц┌ц┴ц■ ц▌ц│ ц░ц┴ц▀ц⌠ц┘ц▄ц≤
+	tga.Width = texture->width;   // ц╥ц≥ц·ц┴ц⌠ц▄ц▒ц┘ц█ ц≈ц≥ц⌠ц▐ц■ц∙ ц≈ ц▄ц▐ц▀ц│ц▄ц≤ц▌ц▐ц┼ ц⌠ц■ц▓ц∙ц▀ц■ц∙ц▓ц┘
+	tga.Height = texture->height; // ц╥ц≥ц·ц┴ц⌠ц▄ц▒ц┘ц█ ц⌡ц┴ц▓ц┴ц▌ц∙ ц≈ ц▄ц▐ц▀ц│ц▄ц≤ц▌ц▐ц┼ ц⌠ц■ц▓ц∙ц▀ц■ц∙ц▓ц┘
+	tga.Bpp = texture->bpp;       // ц╥ц≥ц·ц┴ц⌠ц▄ц▒ц┘ц█ ц▀ц▐ц▄ц┴ц·ц┘ц⌠ц■ц≈ц▐ ц┌ц┴ц■ ц▌ц│ ц░ц┴ц▀ц⌠ц┘ц▄ц≤ ц≈ ц▄ц▐ц▀ц│ц▄ц≤ц▌ц▐ц┼ ц⌠ц■ц▓ц∙ц▀ц■ц∙ц▓ц┘
 
-	// Убеждаемся что вся информация корректна
+	// ц╣ц┌ц┘ц√ц└ц│ц┘ц█ц⌠ц▒ ц·ц■ц▐ ц≈ц⌠ц▒ ц┴ц▌ц├ц▐ц▓ц█ц│ц┐ц┴ц▒ ц▀ц▐ц▓ц▓ц┘ц▀ц■ц▌ц│
 	if((texture->width <= 0) || (texture->height <= 0) || ((texture->bpp != 24) && (texture->bpp !=32)))
 	{
-		printf("Unknown or corrupted TGA header!\n");//...Здесь код ошибки...
-		return false;        // Возвращаем False
+		printf("Unknown or corrupted TGA header!\n");//...ц╨ц└ц┘ц⌠ц≤ ц▀ц▐ц└ ц▐ц⌡ц┴ц┌ц▀ц┴...
+		return false;        // ц╥ц▐ц ц≈ц▓ц│ц²ц│ц┘ц█ False
 	}
 
-	if(texture->bpp == 24)        // Это изображение 24bpp?
-		texture->type  = GL_RGB;    // Если да, устанавливаем GL_RGB
-	else                          // если не 24, тогда 32
-		texture->type  = GL_RGBA;   // устанавливаем GL_RGBA
+	if(texture->bpp == 24)        // ц╪ц■ц▐ ц┴ц ц▐ц┌ц▓ц│ц√ц┘ц▌ц┴ц┘ 24bpp?
+		texture->type  = GL_RGB;    // ц╔ц⌠ц▄ц┴ ц└ц│, ц∙ц⌠ц■ц│ц▌ц│ц≈ц▄ц┴ц≈ц│ц┘ц█ GL_RGB
+	else                          // ц┘ц⌠ц▄ц┴ ц▌ц┘ 24, ц■ц▐ц┤ц└ц│ 32
+		texture->type  = GL_RGBA;   // ц∙ц⌠ц■ц│ц▌ц│ц≈ц▄ц┴ц≈ц│ц┘ц█ GL_RGBA
 
 
-	tga.bytesPerPixel = (tga.Bpp / 8); // Высчитываем количество байт на пиксель
-	// Считаем размер памяти необходимый для хранения изображения
+	tga.bytesPerPixel = (tga.Bpp / 8); // ц╥ц≥ц⌠ц·ц┴ц■ц≥ц≈ц│ц┘ц█ ц▀ц▐ц▄ц┴ц·ц┘ц⌠ц■ц≈ц▐ ц┌ц│ц┼ц■ ц▌ц│ ц░ц┴ц▀ц⌠ц┘ц▄ц≤
+	// цЁц·ц┴ц■ц│ц┘ц█ ц▓ц│ц ц█ц┘ц▓ ц░ц│ц█ц▒ц■ц┴ ц▌ц┘ц▐ц┌ц┬ц▐ц└ц┴ц█ц≥ц┼ ц└ц▄ц▒ ц┬ц▓ц│ц▌ц┘ц▌ц┴ц▒ ц┴ц ц▐ц┌ц▓ц│ц√ц┘ц▌ц┴ц▒
 	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);
 
 
-	// Выделяем память
+	// ц╥ц≥ц└ц┘ц▄ц▒ц┘ц█ ц░ц│ц█ц▒ц■ц≤
 	texture->imageData = (GLubyte *) new char[tga.imageSize];
-	if(texture->imageData == NULL)      // Убеждаемся что она была выделена
+	if(texture->imageData == NULL)      // ц╣ц┌ц┘ц√ц└ц│ц┘ц█ц⌠ц▒ ц·ц■ц▐ ц▐ц▌ц│ ц┌ц≥ц▄ц│ ц≈ц≥ц└ц┘ц▄ц┘ц▌ц│
 	{
-		printf("Can't allocate memory for image!\n");//...Здесь код ошибки...
-		return false;        // Если нет, возвращаем False
+		printf("Can't allocate memory for image!\n");//...ц╨ц└ц┘ц⌠ц≤ ц▀ц▐ц└ ц▐ц⌡ц┴ц┌ц▀ц┴...
+		return false;        // ц╔ц⌠ц▄ц┴ ц▌ц┘ц■, ц≈ц▐ц ц≈ц▓ц│ц²ц│ц┘ц█ False
 	}
-	// Пытаемся считать все изображение
+	// ц╟ц≥ц■ц│ц┘ц█ц⌠ц▒ ц⌠ц·ц┴ц■ц│ц■ц≤ ц≈ц⌠ц┘ ц┴ц ц▐ц┌ц▓ц│ц√ц┘ц▌ц┴ц┘
 	if(fread(texture->imageData, 1, tga.imageSize, fTGA) != tga.imageSize)
 	{
-		printf("Can't read image data!\n");//...Здесь код ошибки...                
-		return false;        // Если не получилось, возвращаем False
+		printf("Can't read image data!\n");//...ц╨ц└ц┘ц⌠ц≤ ц▀ц▐ц└ ц▐ц⌡ц┴ц┌ц▀ц┴...                
+		return false;        // ц╔ц⌠ц▄ц┴ ц▌ц┘ ц░ц▐ц▄ц∙ц·ц┴ц▄ц▐ц⌠ц≤, ц≈ц▐ц ц≈ц▓ц│ц²ц│ц┘ц█ False
 	}
-	// Начинаем цикл
+	// ц╝ц│ц·ц┴ц▌ц│ц┘ц█ ц┐ц┴ц▀ц▄
 	GLuint temp;
 	for(GLuint cswap = 0; cswap < (int)tga.imageSize; cswap += tga.bytesPerPixel)
 	{
-		// Первый байт XOR третий байт XOR первый байт XOR третий байт
+		// ц╟ц┘ц▓ц≈ц≥ц┼ ц┌ц│ц┼ц■ XOR ц■ц▓ц┘ц■ц┴ц┼ ц┌ц│ц┼ц■ XOR ц░ц┘ц▓ц≈ц≥ц┼ ц┌ц│ц┼ц■ XOR ц■ц▓ц┘ц■ц┴ц┼ ц┌ц│ц┼ц■
 		// texture->imageData[cswap] ^= texture->imageData[cswap+2] ^=
 		// texture->imageData[cswap] ^= texture->imageData[cswap+2];
 		temp=texture->imageData[cswap];							// Temporarily Store The Value At Image Data 'i'
@@ -98,8 +101,8 @@ bool LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA)
 		texture->imageData[cswap + 2] = temp;					// Set The 3rd Byte To The Value In 'temp' (1st Byte Value)
 	}
 
-	fclose(fTGA);          // Закрываем файл
-	return true;          // Возвращаем true
+	fclose(fTGA);          // ц╨ц│ц▀ц▓ц≥ц≈ц│ц┘ц█ ц├ц│ц┼ц▄
+	return true;          // ц╥ц▐ц ц≈ц▓ц│ц²ц│ц┘ц█ true
 }
 /*
 int main(void) 
